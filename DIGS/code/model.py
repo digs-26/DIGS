@@ -43,9 +43,6 @@ class Model(RobertaForSequenceClassification):
             logits = self.classifier(last_hidden_state)
             prob = torch.softmax(logits, dim=-1)
             if labels is not None:
-                # weights = torch.tensor([1.0, 14858 / 12460]).to(self.args.device)
-                # weights = torch.tensor([1.0, 6658 / 1658]).to(self.args.device)
-                # weights = torch.tensor([1.0, 20900 / 10900]).to(self.args.device)
                 weights = torch.tensor([1.0, 1.0]).to(self.args.device)
                 if self.flag:
                     self.flag = False
@@ -65,9 +62,6 @@ class Model(RobertaForSequenceClassification):
             logits = self.classifier(outputs)
             prob = torch.softmax(logits, dim=-1)
             if labels is not None:
-                # weights = torch.tensor([1.0, 14858 / 12460]).to(self.args.device)
-                # weights = torch.tensor([1.0, 6658 / 1658]).to(self.args.device)
-                # weights = torch.tensor([1.0, 20900 / 10900]).to(self.args.device)
                 weights = torch.tensor([1.0, 1.0]).to(self.args.device)
                 if self.flag:
                     self.flag = False

@@ -306,14 +306,6 @@ def filter(part_dataset, key, ratio, descending, output_dir, save_path):
     tmp_examples = []
     pos = 0
     neg = 0
-    # for i in coreset_index:
-    #     for j in range(len(part_dataset.examples)):
-    #         if part_dataset.examples[j].index == i:
-    #             tmp_examples.append(part_dataset.examples[j])
-    #             if part_dataset.examples[j].label == 1:
-    #                 pos += 1
-    #             else:
-    #                 neg += 1
     for i in coreset_index:
         tmp_examples.append(part_dataset.examples[i])
         if part_dataset.examples[i].label == 1:
