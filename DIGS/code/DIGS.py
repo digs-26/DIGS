@@ -150,15 +150,22 @@ def get_uncertain_score(part_part_dist, train_part_dist, part_indices, label, sa
         with open(rank_list_path, 'r') as f:
             uncertain_score = json.load(f)
     else:
-
-        part_part_dist = 1 / (part_part_dist + 1)
-        train_part_dist = 1 / (train_part_dist + 1)
-
+        intra_similarity = - part_part_dist
+        inter_similarity = - train_part_dist
+        intra_similarity = 1 / (intra_similarity - 1)
+        inter_similarity = 1 / (inter_similarity - 1)
         uncertain_score = defaultdict(list)
         for i in range(len(part_part_dist)):
-            uncertain_score[i].append(alpha * part_part_dist[i] + beta * train_part_dist[i])
-
-        uncertain_score = sorted(uncertain_score.items(), key=lambda x: sum(x[1]))
+            uncertain_score[i].append(alpha * intra_similarity[i] + beta * inter_similarity[i])
+        uncertain_score = sorted(uncertain_score.items(), key=lambda x: sum(x[1]), reverse=True)
+        # part_part_dist = 1 / (part_part_dist + 1)
+        # train_part_dist = 1 / (train_part_dist + 1)
+        #
+        # uncertain_score = defaultdict(list)
+        # for i in range(len(part_part_dist)):
+        #     uncertain_score[i].append(alpha * part_part_dist[i] + beta * train_part_dist[i])
+        #
+        # uncertain_score = sorted(uncertain_score.items(), key=lambda x: sum(x[1]))
         with open(rank_list_path, 'w') as f:
             json.dump(uncertain_score, f, indent=4)
     return uncertain_score
